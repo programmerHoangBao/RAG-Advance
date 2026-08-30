@@ -1,9 +1,14 @@
+import logging
 import torch
 import torch.nn as nn
-import math
-import torch.nn.functional as F
 from transformers import AutoModel
-from custom_multi_head_attention import CustomMultiHeadAttention, RMSNorm
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+from classification_models.custom_multi_head_attention import CustomMultiHeadAttention
 
 class BBLAMultiLabelModel(nn.Module):
     """

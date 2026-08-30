@@ -2,4 +2,8 @@
 /bge-base-en-v1-5
 /codebert-base
 /Qwen2.5-Coder-7B-Instruct
-/bbla
+/model
+/venv
+/data/data.parquet
+/data/test.parquet
+/data.zip

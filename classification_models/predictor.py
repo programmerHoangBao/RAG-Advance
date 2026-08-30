@@ -1,10 +1,7 @@
 import torch
 from transformers import AutoTokenizer
-import torch.nn as nn
-import math
 import torch.nn.functional as F
-from transformers import AutoTokenizer, AutoModel
-from BBLAMultiLabelModel import BBLAMultiLabelModel
+from classification_models.model import BBLAMultiLabelModel
 import logging
 
 logger = logging.getLogger(__name__)

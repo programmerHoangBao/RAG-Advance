@@ -1,8 +1,6 @@
 import torch
 import torch.nn as nn
-import math
 import torch.nn.functional as F
-from transformers import AutoModel
 
 class RMSNorm(nn.Module):
     """Gated RMS Normalization - tương tự gated_rms_norm trong code TensorFlow"""
