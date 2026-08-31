@@ -6,8 +6,6 @@ import numpy as np
 from collections import defaultdict
 import nltk
 from nltk.tokenize import sent_tokenize
-import torch.nn as nn
-import math
 
 nltk.download('punkt', quiet=True)
 
