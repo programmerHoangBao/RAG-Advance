@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from classification_models.predictor import Predictor
 from chatbot_RAG.RAGEvaluator import RAGEvaluator
 from chatbot_RAG.StackOverflowRAG import StackOverflowRAG
+import chatbot_RAG.layer1_evaluator as layer1_evaluate
 
 load_dotenv("./.env")
 
@@ -80,7 +81,7 @@ def load_test_data(test_path):
 
     df_test = pd.read_parquet(test_path)
 
-    questions = df_test["question"].tolist()
+    questions = (df_test["title"] + ". " + df_test["question"]).tolist()
     reference_answers = df_test["answer"].tolist()
     ref_tags = df_test["tags"].tolist()
 
@@ -211,7 +212,7 @@ def calculate_summary(results_details, total_execution_time):
         )
     }
 
-def save_results(results_details, results_summary):
+def save_results(results_details, results_summary, metrics_layer_1):
     """Save evaluation results to CSV."""
 
     results_df = pd.DataFrame(results_details)
@@ -225,15 +226,16 @@ def save_results(results_details, results_summary):
         "./evaluation_summary.csv",
         index=False
     )
+    
+    result_layer_1_df = pd.DataFrame([metrics_layer_1])
+    result_layer_1_df.to_csv("summary_layer_1.csv", index=False)
 
 def main():
     # 1. Initialize models
     predictor, chatrag, evaluator = initialize_models()
 
     # 2. Load test dataset
-    questions, reference_answers, ref_tags = load_test_data(
-        test_path
-    )
+    questions, reference_answers, ref_tags = load_test_data(test_path)
 
     # 3. Fit IDF for evaluator
     evaluator.fit_idf(reference_answers)
@@ -253,11 +255,16 @@ def main():
         results_details=results_details,
         total_execution_time=total_execution_time
     )
+    
+    # Evaluate layer 1
+    df_test = layer1_evaluate.load_test_data(test_path)
+    metrics_layer_1 = layer1_evaluate.evaluate_model(predictor=predictor, df_test=df_test)
 
     # 6. Save results
     save_results(
         results_details=results_details,
-        results_summary=results_summary
+        results_summary=results_summary,
+        metrics_layer_1=metrics_layer_1
     )
 
 if __name__ == "__main__":
