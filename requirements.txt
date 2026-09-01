@@ -8,3 +8,4 @@ nltk==3.10.3
 python-dotenv==1.2.3
 pymongo==4.17.0
 gradio==6.26.0
+pyarrow==25.0.1
