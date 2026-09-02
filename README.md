@@ -81,6 +81,51 @@ Before retrieval, the system performs **query rewriting** using the LLM to trans
 During the generation stage, the LLM receives the retrieved Stack Overflow posts as context together with the rewritten query. The system prompt instructs the model to provide direct, accurate, and concise answers based on the retrieved documents. The generation process uses `max_new_tokens = 1024`, `temperature = 0.3`, and `top_p = 0.9`, providing a balance between response flexibility and generation control.
 
 ## 4. Outcome
+
+The RAG Advanced system achieved slightly better overall performance than the RAG Basic approach.
+
+| Metric                   | RAG Advanced | RAG Basic |
+| ------------------------ | -----------: | --------: |
+| Faithfulness             |        78.06 | **78.64** |
+| BERTScore                |    **88.47** |     88.32 |
+| Answer Relevancy         |    **90.10** |     90.05 |
+| Avg. Retrieved Documents |     **2.65** |      2.78 |
+| Total Execution Time (s) |  **4287.04** |   4709.28 |
+| Avg. Response Time (s)   |    **42.87** |     47.09 |
+
+Overall, **RAG Advanced** provides higher BERTScore and Answer Relevancy while retrieving fewer documents and achieving faster response times. However, **RAG Basic** achieves a slightly higher Faithfulness score.
+
+Demo via web interface: 
+
+[▶️ Watch the video on YouTube](https://youtu.be/TCS9jm4M_0A?si=iyrrCRNMxayOcDmi)
+
+[![Watch the video](https://img.youtube.com/vi/TCS9jm4M_0A/0.jpg)](https://youtu.be/TCS9jm4M_0A?si=iyrrCRNMxayOcDmi)
+
 ## 5. Install Guide
 ### 5.1. Requirements
+- Your machine must have at least the minimum configuration shown in the table below:
+  
+| Ingredient | Specifications |
+| --- | --- |
+| **CPU** | Intel Xeon CPU @ 2.00 GHz |
+| **EC/TC** | 2 cores / 4 threads |
+| **RAM** | 30 GB |
+| **GPU** | 2 × Tesla T4 |
+| **VRAM** | 15 GB per GPU |
+| **OS** | Linux x86_64 |
+
+- Python version 3.11.5.
+
 ### 5.2. Step-by-step guide
+- Step 1: Clone project
+- Step 2: Open the terminal in the project directory and run the command ```pip install -r requirements.txt ```
+- Step 3: Install the necessary components:
+  - **Data**: [Q&A about programming on Stack Overflow](https://www.kaggle.com/datasets/nhbuniversity/q-and-a-about-programming-on-stack-overflow)
+  - **codebert-base**: [Model link](https://www.kaggle.com/models/jsday96/codebert-base)
+  - **Qwen2.5-Coder-7B-Instruct**: [Model link](https://www.kaggle.com/models/nhbuniversity/qwen2-5-coder-7b-instruct-zip)
+  - **bge-base-en-v1-5**: [Model link](https://www.kaggle.com/models/nhbuniversity/bge-base-en-v1-5)
+  - **layer01-classification**: [Model link](https://www.kaggle.com/models/kietnguyenoto/layer01-classfication)
+
+- Step 3: Run import_data_to_qdrant.py
+- Step 5: Run main.py
+- Step 6 (Optional): Run demo.py
